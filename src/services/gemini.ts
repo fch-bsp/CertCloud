@@ -23,6 +23,7 @@ export const parseExamGuide = async (pdfBase64: string, language: Language): Pro
       },
     ],
     config: {
+      thinkingConfig: { thinkingLevel: "LOW" as any },
       responseMimeType: "application/json",
       responseSchema: {
         type: Type.ARRAY,
@@ -74,6 +75,7 @@ export const parseQuestionBank = async (pdfBase64: string, targetCount: number, 
       },
     ],
     config: {
+      thinkingConfig: { thinkingLevel: "LOW" as any },
       responseMimeType: "application/json",
       responseSchema: {
         type: Type.ARRAY,

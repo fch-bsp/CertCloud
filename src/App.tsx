@@ -204,14 +204,21 @@ export default function App() {
     
     setState("LOADING");
     try {
-      setLoadingMessage(t.loadingGuide);
-      const guideBase64 = await fileToBase64(guideFile);
-      const extractedDomains = await parseExamGuide(guideBase64, language);
-      setDomains(extractedDomains);
+      setLoadingMessage(t.loadingDesc); // Generic starting message
       
-      setLoadingMessage(t.loadingBank);
-      const bankBase64 = await fileToBase64(bankFile);
-      const extractedQuestions = await parseQuestionBank(bankBase64, questionCount, language);
+      const [guideBase64, bankBase64] = await Promise.all([
+        fileToBase64(guideFile),
+        fileToBase64(bankFile)
+      ]);
+
+      setLoadingMessage(t.loadingGuide + " & " + t.loadingBank);
+
+      const [extractedDomains, extractedQuestions] = await Promise.all([
+        parseExamGuide(guideBase64, language),
+        parseQuestionBank(bankBase64, questionCount, language)
+      ]);
+
+      setDomains(extractedDomains);
       setAllQuestions(extractedQuestions);
       
       if (extractedQuestions.length === 0) {
